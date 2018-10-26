@@ -17,6 +17,11 @@
 @interface LgPageView ()
 {
 	UIView *_lineView;
+	UIColor *_seletedColor;
+	UIColor *_normalColor;
+	UIFont  * _titleFont;
+	CGFloat _lineHeight;
+	UIColor *_lineColor;
 }
 //标签集合
 @property (nonatomic,strong)NSMutableArray *Items;
@@ -27,12 +32,39 @@
 
 @implementation LgPageView
 
+
 -(instancetype)initWithFrame:(CGRect)frame
+				andTitleFont:(UIFont *)titleFont
+			 andSeletedColor:(UIColor *)seletedColor
+			  andNormalColor:(UIColor *)normalColor
+				andLineColor:(UIColor *)lineColor
+			   andLineHeight:(CGFloat)lineHeight
 {
 	self = [super initWithFrame:frame];
 	if (self) {
 		self.backgroundColor = [UIColor whiteColor];
 		[self addSubview:self.bgScrollView];
+		_lineHeight = 2.0f;
+		_seletedColor = seletedColor;
+		_normalColor = normalColor;
+		_titleFont = titleFont;
+		_lineColor = lineColor;
+		//三者都不存在
+		if (!_seletedColor) {
+			_seletedColor  = [UIColor redColor];
+		}
+		if (!_normalColor) {
+			_normalColor = [UIColor blackColor];
+		}
+		if (!_titleFont) {
+			_titleFont = [UIFont systemFontOfSize:16.0f];
+		}
+		if (lineHeight != 0) {
+			_lineHeight = lineHeight;
+		}
+		if (!_lineColor) {
+			_lineColor = [UIColor redColor];
+		}
 	}
 	return self;
 }
@@ -46,6 +78,7 @@
 	}];
 	if (_lineView) {
 		[_lineView removeFromSuperview];
+		_lineView = nil;
 	}
 	NSAssert(self.delegate != nil, @"设置 LgPageControlViewController 代理");
 	NSAssert([self.delegate respondsToSelector:@selector(lgPageTitlesWithLgPageView:)], @"未能实现必要的方法 lgPageTitlesWithLgPageView");
@@ -55,15 +88,16 @@
 		CGFloat maxX = 0;
 		CGFloat space = 10;
 		CGFloat top = 0;
-		CGFloat lineHeight = 2.0f;
+		CGFloat lineHeight = _lineHeight;
 		CGFloat height = CGRectGetHeight(self.frame) - top - lineHeight;
 		for (int i = 0; i < titleCount; i++) {
 			UILabel *titleLable = [UILabel new];
 			titleLable.text = titles[i];
-			titleLable.textColor = [UIColor blackColor];
+			titleLable.textColor = _normalColor;
 			titleLable.tag = MIN_ITEM_TAG + i;
-			titleLable.font  = [UIFont systemFontOfSize:15.0f];
+			titleLable.font  = _titleFont;
 			[self.Items addObject:titleLable];
+
 		    CGFloat itemWidth = 	[titleLable sizeThatFits:CGSizeMake(CGFLOAT_MAX, 10)].width;
 			if (i == 0) {
 				titleLable.frame = CGRectMake(maxX+LEFT_RIGHT_SPACE, top, itemWidth, height);
@@ -78,8 +112,8 @@
 			if (i == 0) {
 				UIView *lineView =[UIView new];
 				_lineView = lineView;
-				titleLable.textColor = [UIColor redColor];
-				_lineView.backgroundColor =[UIColor redColor];
+				titleLable.textColor = _seletedColor;
+				_lineView.backgroundColor = _lineColor;
 				[self.bgScrollView addSubview:lineView];
 				_lineView.bounds = CGRectMake(0, 0, itemWidth, lineHeight);
 				_lineView.center = CGPointMake(titleLable.center.x, CGRectGetMaxY(titleLable.frame) - lineHeight);
@@ -116,12 +150,13 @@
 	CGFloat width = CGRectGetWidth(currentTitle.frame);
 	CGRect rect = CGRectMake(0, 0, width, CGRectGetHeight(_lineView.frame));
 	CGPoint center = (CGPoint){currentTitle.center.x,_lineView.center.y};
+
 	[self.Items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		UILabel *lable = obj;
 		if (lable == currentTitle) {
-			lable.textColor = [UIColor redColor];
+			lable.textColor =self-> _seletedColor;
 		}else{
-			lable.textColor = [UIColor blackColor];
+			lable.textColor =self-> _normalColor;
 		}
 	}];
 	[UIView animateWithDuration:0.15 animations:^{
@@ -185,6 +220,5 @@
 	 }
 	return _bgScrollView;
 }
-
 
 @end

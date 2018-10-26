@@ -18,6 +18,20 @@
 //设置的pageVc
 @property(nonatomic,weak)LgPageControlViewController * pageVc;
 
+/** 带参数 初始化
+ * titleFont         字体
+ * seletedColor 选中的颜色
+ * normalColor  正常的颜色
+ * lineColor       线条颜色
+ * lineHeight    线的高度
+ */
+-(instancetype)initWithFrame:(CGRect)frame
+				andTitleFont:(UIFont *)titleFont
+			 andSeletedColor:(UIColor *)seletedColor
+			  andNormalColor:(UIColor *)normalColor
+				andLineColor:(UIColor *)lineColor
+			   andLineHeight:(CGFloat)lineHeight;
+
 -(void)configeUI;
 
 //下面的分页滚动到第几页了

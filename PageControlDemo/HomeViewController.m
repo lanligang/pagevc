@@ -30,8 +30,16 @@
     [super viewDidLoad];
 	[self.dataSource addObjectsFromArray:@[@"张三李四王"]];
 	[self.navigationController.navigationBar setTranslucent:NO];
+
 	CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, topY, CGRectGetWidth(self.view.frame)- 30.0f, 40.0f)];
+
+	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, topY, CGRectGetWidth(self.view.frame) - 30, 40.0f)
+											  andTitleFont:[UIFont systemFontOfSize:18.0f]
+										   andSeletedColor:[UIColor redColor]
+											andNormalColor:nil
+											  andLineColor:nil
+											 andLineHeight:3.0f];
+
 	[self.view addSubview:pageView];
 	
 	LgPageControlViewController *pageVc = [[LgPageControlViewController alloc]initWithTitleView:pageView andDelegateVc:self];
@@ -41,11 +49,12 @@
 								   CGRectGetWidth(self.view.frame),
 								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame));
 
+
 	UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	[changeBtn setTitle:@"换" forState:UIControlStateNormal];
 	[changeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
 	changeBtn.bounds = CGRectMake(0, 0, 30, 30);
-	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) + 15.0f, pageView.center.y};
+	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) - 15.0f, pageView.center.y};
 	[changeBtn addTarget:self action:@selector(changeCountClicked:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:changeBtn];
 }
@@ -53,7 +62,7 @@
 #pragma mark  按钮点击
 -(void)changeCountClicked:(UIButton *)btn
 {
-	[self.dataSource addObjectsFromArray:@[@"张三李四王",@"王五飞机撒开房间爱卡"]];
+	[self.dataSource addObjectsFromArray:@[@"张三李",@"王五"]];
 	[_pageVc reloadData];
 }
 
