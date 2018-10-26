@@ -8,6 +8,8 @@
 
 #import "LgPageControlViewController.h"
 
+#import "LgPageView.h"
+
 #define MINX_VIEW_TAG 3000
 
 @interface LgPageControlViewController ()<UIScrollViewDelegate>
@@ -40,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.backgroundColor = [UIColor lightGrayColor];
 	[self.view addSubview:self.bgScrollView];
 	if (self.lgDelegate) {
 		_currentPage = 0;
@@ -61,14 +63,7 @@
 			NSAssert([vc isKindOfClass:[UIViewController class]], @"请检查 lgPageControl:withIndex:代理方法返回类型");
 			[self addChildViewController:vc];
 			vc.view.tag = MINX_VIEW_TAG + page;
-
-			NSArray *colors = @[
-								[UIColor redColor],
-								[UIColor greenColor],
-								[UIColor yellowColor],
-								[UIColor purpleColor],
-								[UIColor orangeColor]];
-			vc.view.backgroundColor = colors[page%5];
+			vc.view.backgroundColor = [UIColor lightGrayColor];
 
 			vc.view.frame = CGRectMake(page*CGRectGetWidth(self.bgScrollView.frame),
 									   0,
@@ -133,6 +128,14 @@
 	     UIView *subView = (UIView *)[scrollView viewWithTag:MINX_VIEW_TAG+page];
 		if (!subView) {
 			[self loadChildVcWithIndex:page];
+		}else{
+			for (UIViewController *vc in self.childViewControllers) {
+				NSInteger viewPage = vc.view.tag - MINX_VIEW_TAG;
+				if (viewPage == page) {
+					[vc viewWillAppear:YES];
+					break;
+				}
+			}
 		}
 	}
 }
@@ -143,7 +146,6 @@
 -(void)reloadData
 {
 	[self removeChildViewControllersAndView];
-
 	CGFloat width = 	CGRectGetWidth(self.view.frame);
 	CGFloat height = 	CGRectGetHeight(self.view.frame);
 	_bgScrollView.frame = CGRectMake(0, 0, width, height);
@@ -154,7 +156,14 @@
 			NSInteger pageCount = [self.lgDelegate lgPageControl:self];
 
 			_bgScrollView.contentSize = CGSizeMake(pageCount*width, 0);
+			if (pageCount >0) {
+				[self loadChildVcWithIndex:0];
+			}
 		}
+	}
+	if (_pageTitleView) {
+		[_pageTitleView configeUI];
+		[_pageTitleView didScrollToPage:0];
 	}
 	[self scrollTopage:0];
 }
@@ -164,7 +173,6 @@
 	_currentPage = page;
 	CGFloat offSetX = CGRectGetWidth(self.view.frame) * _currentPage;
 	[self.bgScrollView setContentOffset:CGPointMake(offSetX, 0) animated:YES];
-	
 }
 
 -(void)endScroll:(NSInteger)page
@@ -177,6 +185,14 @@
 		UIView *subView = (UIView *)[self.bgScrollView viewWithTag:MINX_VIEW_TAG+page];
 		if (!subView) {
 			[self loadChildVcWithIndex:page];
+		}else{
+			for (UIViewController *vc in self.childViewControllers) {
+				NSInteger viewPage = vc.view.tag - MINX_VIEW_TAG;
+				if (viewPage == page) {
+					[vc viewWillAppear:YES];
+					break;
+				}
+			}
 		}
 	}
 }

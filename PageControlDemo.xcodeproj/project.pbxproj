@@ -16,6 +16,8 @@
 		8FA681392181489100B8BC60 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA681382181489100B8BC60 /* HomeViewController.m */; };
 		8FA6813C2181491D00B8BC60 /* LgPageControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6813B2181491D00B8BC60 /* LgPageControlViewController.m */; };
 		8FA6813F2181616B00B8BC60 /* LgPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6813E2181616B00B8BC60 /* LgPageView.m */; };
+		8FDF5FE921829DD700D9A4A5 /* ASubVcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDF5FE821829DD700D9A4A5 /* ASubVcViewController.m */; };
+		8FDF5FEC21829DF400D9A4A5 /* BSubVcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDF5FEB21829DF400D9A4A5 /* BSubVcViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,10 @@
 		8FA6813D2181616B00B8BC60 /* LgPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LgPageView.h; sourceTree = "<group>"; };
 		8FA6813E2181616B00B8BC60 /* LgPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LgPageView.m; sourceTree = "<group>"; };
 		8FA681402181643300B8BC60 /* LgPageControlDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LgPageControlDelegate.h; sourceTree = "<group>"; };
+		8FDF5FE721829DD700D9A4A5 /* ASubVcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASubVcViewController.h; sourceTree = "<group>"; };
+		8FDF5FE821829DD700D9A4A5 /* ASubVcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASubVcViewController.m; sourceTree = "<group>"; };
+		8FDF5FEA21829DF400D9A4A5 /* BSubVcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSubVcViewController.h; sourceTree = "<group>"; };
+		8FDF5FEB21829DF400D9A4A5 /* BSubVcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSubVcViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,10 @@
 				8FA681052181477200B8BC60 /* AppDelegate.m */,
 				8FA681372181489100B8BC60 /* HomeViewController.h */,
 				8FA681382181489100B8BC60 /* HomeViewController.m */,
+				8FDF5FE721829DD700D9A4A5 /* ASubVcViewController.h */,
+				8FDF5FE821829DD700D9A4A5 /* ASubVcViewController.m */,
+				8FDF5FEA21829DF400D9A4A5 /* BSubVcViewController.h */,
+				8FDF5FEB21829DF400D9A4A5 /* BSubVcViewController.m */,
 				8FA681362181487200B8BC60 /* pageControlVc */,
 				8FA6810D2181477500B8BC60 /* Assets.xcassets */,
 				8FA6810F2181477500B8BC60 /* LaunchScreen.storyboard */,
@@ -279,9 +289,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FA6813C2181491D00B8BC60 /* LgPageControlViewController.m in Sources */,
+				8FDF5FEC21829DF400D9A4A5 /* BSubVcViewController.m in Sources */,
 				8FA681142181477500B8BC60 /* main.m in Sources */,
 				8FA681062181477200B8BC60 /* AppDelegate.m in Sources */,
 				8FA6813F2181616B00B8BC60 /* LgPageView.m in Sources */,
+				8FDF5FE921829DD700D9A4A5 /* ASubVcViewController.m in Sources */,
 				8FA681392181489100B8BC60 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

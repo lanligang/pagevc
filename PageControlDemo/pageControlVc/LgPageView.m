@@ -40,6 +40,13 @@
 -(void)configeUI
 {
 	// 初始化构建UI
+	[self.Items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		UIView *titleView = obj;
+		[titleView removeFromSuperview];
+	}];
+	if (_lineView) {
+		[_lineView removeFromSuperview];
+	}
 	NSAssert(self.delegate != nil, @"设置 LgPageControlViewController 代理");
 	NSAssert([self.delegate respondsToSelector:@selector(lgPageTitlesWithLgPageView:)], @"未能实现必要的方法 lgPageTitlesWithLgPageView");
 	NSArray *titles = [self.delegate lgPageTitlesWithLgPageView:self];

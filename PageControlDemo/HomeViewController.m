@@ -7,9 +7,15 @@
 //
 
 #import "HomeViewController.h"
-#import "LgPageControlViewController.h"
+#import "ASubVcViewController.h"
+#import "BSubVcViewController.h"
 
-@interface HomeViewController ()<LgPageControlDelegate>
+#import "LgPageControlViewController.h"
+@interface HomeViewController ()<LgPageControlDelegate>{
+	LgPageControlViewController *_pageVc;
+}
+
+@property (nonatomic,strong)NSMutableArray *dataSource;
 
 @end
 
@@ -22,34 +28,68 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+	[self.dataSource addObjectsFromArray:@[@"张三李四王"]];
 	[self.navigationController.navigationBar setTranslucent:NO];
 	CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-	
 	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, topY, CGRectGetWidth(self.view.frame)- 30.0f, 40.0f)];
 	[self.view addSubview:pageView];
 	
 	LgPageControlViewController *pageVc = [[LgPageControlViewController alloc]initWithTitleView:pageView andDelegateVc:self];
-	
+	_pageVc = pageVc;
 	pageVc.view.frame = CGRectMake(0,
 								   CGRectGetMaxY(pageView.frame),
 								   CGRectGetWidth(self.view.frame),
 								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame));
+
+	UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+	[changeBtn setTitle:@"换" forState:UIControlStateNormal];
+	[changeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+	changeBtn.bounds = CGRectMake(0, 0, 30, 30);
+	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) + 15.0f, pageView.center.y};
+	[changeBtn addTarget:self action:@selector(changeCountClicked:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:changeBtn];
 }
+
+#pragma mark  按钮点击
+-(void)changeCountClicked:(UIButton *)btn
+{
+	[self.dataSource addObjectsFromArray:@[@"张三李四王",@"王五飞机撒开房间爱卡"]];
+	[_pageVc reloadData];
+}
+
 #pragma mark LgPageControlDelegate
 
 -(NSInteger)lgPageControl:(LgPageControlViewController *)pageController
 {
-	return 3;
+	return self.dataSource.count;
 }
 -(UIViewController *)lgPageControl:(LgPageControlViewController *)pageController withIndex:(NSInteger)index
 {
-	UIViewController *vc = [[UIViewController alloc]init];
+	NSString *aclassNames[2] = {@"ASubVcViewController",@"BSubVcViewController"};
+	NSInteger vcIndex = index%2;
+	NSString *className = aclassNames[vcIndex];
+	UIViewController *vc = [[NSClassFromString(className) alloc]init];
 	return vc;
 }
 
 -(NSArray *)lgPageTitlesWithLgPageView:(LgPageView *)pageView
 {
-	return @[@"张三李四王",@"李四房间爱开始放假奥斯卡",@"王五飞机撒开房间爱卡"];
+	return self.dataSource;
 }
+
+-(NSMutableArray *)dataSource
+{
+	if (!_dataSource)
+	 {
+		_dataSource = [[NSMutableArray alloc]init];
+	 }
+	return _dataSource;
+}
+
+
+
+
+
+
 
 @end
