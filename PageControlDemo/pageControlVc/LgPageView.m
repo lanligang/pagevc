@@ -169,7 +169,7 @@
 	CGFloat minX = CGRectGetMinX(aRect);
 	CGFloat maxX = CGRectGetMaxX(aRect);
 
-	if (maxX >= CGRectGetWidth(self.frame)) {
+	if (maxX >= CGRectGetWidth(self.frame)/2.0) {
 		//超过最右边了
 		CGFloat aCenterX =  aRect.origin.x -self.bgScrollView.contentOffset.x +aRect.size.width/2.0f;
 		CGFloat shouldChangeX = self.bgScrollView.contentOffset.x + (aCenterX - CGRectGetWidth(self.bgScrollView.frame)/2.0f);

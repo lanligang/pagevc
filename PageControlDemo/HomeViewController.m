@@ -54,7 +54,7 @@
 	[changeBtn setTitle:@"换" forState:UIControlStateNormal];
 	[changeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
 	changeBtn.bounds = CGRectMake(0, 0, 30, 30);
-	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) - 15.0f, pageView.center.y};
+	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) + 15.0f, pageView.center.y};
 	[changeBtn addTarget:self action:@selector(changeCountClicked:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:changeBtn];
 }
