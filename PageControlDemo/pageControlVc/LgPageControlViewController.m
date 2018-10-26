@@ -28,6 +28,10 @@
 {
 	self =[super init];
 	if (self) {
+		//默认为 3 个 默认 清理为不清理
+		self.minClearCount = 3;
+		self.canClearSubVcCache = NO;
+
 		self.lgDelegate = delegateVc;
 		_pageTitleView = titleView;
 		_pageTitleView.pageVc = self;
@@ -70,6 +74,25 @@
 									   CGRectGetWidth(self.bgScrollView.frame),
 									   CGRectGetHeight(self.bgScrollView.frame));
 			[self.bgScrollView addSubview:vc.view];
+		}
+		if (self.canClearSubVcCache) {
+			if (self.childViewControllers.count > self.minClearCount) {
+			__block UIViewController *vc = nil;
+			   __block	NSInteger max = 1;
+			[self.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					NSInteger pageNum = obj.view.tag - MINX_VIEW_TAG - self->_currentPage;
+				NSInteger pageAbs =  labs(pageNum);
+				if (pageAbs >= max) {
+					max = pageAbs;
+					vc = obj;
+				}
+				}];
+				if (vc) {
+					[vc willMoveToParentViewController:nil];
+					[vc.view removeFromSuperview];
+					[vc removeFromParentViewController];
+				}
+			}
 		}
 	}
 }

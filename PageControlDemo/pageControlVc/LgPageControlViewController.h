@@ -20,6 +20,11 @@
 
 @property(nonatomic,weak)id <LgPageControlDelegate> lgDelegate;
 
+//是否可以清理之前的数据
+@property(nonatomic,assign)BOOL canClearSubVcCache;
+
+//最小清理数量
+@property(nonatomic,assign)NSInteger minClearCount;
 
 //当前页面
 @property(nonatomic,assign,readonly)NSInteger lgCurrentPage;

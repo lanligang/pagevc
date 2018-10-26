@@ -33,7 +33,7 @@
 
 	CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
 
-	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, topY, CGRectGetWidth(self.view.frame) - 30, 40.0f)
+	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 40.0f, CGRectGetWidth(self.view.frame) - 30, 40.0f)
 											  andTitleFont:[UIFont systemFontOfSize:18.0f]
 										   andSeletedColor:[UIColor redColor]
 											andNormalColor:nil
@@ -43,12 +43,13 @@
 	[self.view addSubview:pageView];
 	
 	LgPageControlViewController *pageVc = [[LgPageControlViewController alloc]initWithTitleView:pageView andDelegateVc:self];
+	pageVc.canClearSubVcCache = YES;
+	pageVc.minClearCount = 3;
 	_pageVc = pageVc;
 	pageVc.view.frame = CGRectMake(0,
-								   CGRectGetMaxY(pageView.frame),
+								   topY,
 								   CGRectGetWidth(self.view.frame),
-								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame));
-
+								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame) - topY);
 
 	UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	[changeBtn setTitle:@"换" forState:UIControlStateNormal];
