@@ -77,6 +77,7 @@
 		}
 		if (self.canClearSubVcCache) {
 			if (self.childViewControllers.count > self.minClearCount) {
+
 			__block UIViewController *vc = nil;
 			   __block	NSInteger max = 1;
 			[self.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -146,7 +147,7 @@
 	CGFloat offSetX = scrollView.contentOffset.x;
 	NSInteger page = offSetX/(CGRectGetWidth(scrollView.frame) - 0.1)/1;
 	_currentPage  = page;
-	[_pageTitleView didScrollToPage:page];
+	[_pageTitleView didScrollToPage:page andIsAnimation:YES];
 	if (self.lgDelegate) {
 	     UIView *subView = (UIView *)[scrollView viewWithTag:MINX_VIEW_TAG+page];
 		if (!subView) {
@@ -186,7 +187,7 @@
 	}
 	if (_pageTitleView) {
 		[_pageTitleView configeUI];
-		[_pageTitleView didScrollToPage:0];
+		[_pageTitleView didScrollToPage:0 andIsAnimation:YES];
 	}
 	[self scrollTopage:0];
 }
@@ -220,6 +221,26 @@
 	}
 }
 
+#pragma mark 向后追加内容
+-(void)addPageNumber
+{
+	if (self.childViewControllers.count<=0) {
+		[self reloadData];
+		return;
+	}
+	CGFloat width = 	CGRectGetWidth(self.view.frame);
+	if (self.lgDelegate) {
+		if ([self.lgDelegate respondsToSelector:@selector(lgPageControl:)]) {
+			NSInteger pageCount = [self.lgDelegate lgPageControl:self];
+			_bgScrollView.contentSize = CGSizeMake(pageCount*width, 0);
+		}
+	}
+	[self scrollTopage:_currentPage];
+	[_pageTitleView configeUI];
+	[_pageTitleView didScrollToPage:_currentPage andIsAnimation:NO];
+}
+
+#pragma getter
 -(NSInteger)lgCurrentPage
 {
 	return _currentPage;

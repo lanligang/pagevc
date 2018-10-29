@@ -28,7 +28,6 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-	[self.dataSource addObjectsFromArray:@[@"张三李四王"]];
 	[self.navigationController.navigationBar setTranslucent:NO];
 
 	CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
@@ -44,7 +43,7 @@
 	
 	LgPageControlViewController *pageVc = [[LgPageControlViewController alloc]initWithTitleView:pageView andDelegateVc:self];
 	pageVc.canClearSubVcCache = YES;
-	pageVc.minClearCount = 3;
+	pageVc.minClearCount = 5;
 	_pageVc = pageVc;
 	pageVc.view.frame = CGRectMake(0,
 								   topY,
@@ -52,7 +51,7 @@
 								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame) - topY);
 
 	UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-	[changeBtn setTitle:@"换" forState:UIControlStateNormal];
+	[changeBtn setTitle:@"加" forState:UIControlStateNormal];
 	[changeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
 	changeBtn.bounds = CGRectMake(0, 0, 30, 30);
 	changeBtn.center = (CGPoint){CGRectGetMaxX(pageView.frame) + 15.0f, pageView.center.y};
@@ -64,7 +63,7 @@
 -(void)changeCountClicked:(UIButton *)btn
 {
 	[self.dataSource addObjectsFromArray:@[@"张三李",@"王五"]];
-	[_pageVc reloadData];
+	[_pageVc addPageNumber];
 }
 
 #pragma mark LgPageControlDelegate
@@ -95,11 +94,5 @@
 	 }
 	return _dataSource;
 }
-
-
-
-
-
-
 
 @end

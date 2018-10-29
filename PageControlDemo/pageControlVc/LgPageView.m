@@ -30,8 +30,8 @@
 
 @end
 
-@implementation LgPageView
 
+@implementation LgPageView
 
 -(instancetype)initWithFrame:(CGRect)frame
 				andTitleFont:(UIFont *)titleFont
@@ -139,11 +139,11 @@
 	if (self.pageVc) {
 		[self.pageVc endScroll:page];
 	}
-	[self didScrollToPage:page];
+	[self didScrollToPage:page andIsAnimation:YES];
 	
 }
 
--(void)didScrollToPage:(NSInteger)page
+-(void)didScrollToPage:(NSInteger)page andIsAnimation:(BOOL)isAnimation
 {
 	NSInteger pageTag = MIN_ITEM_TAG + page;
 	UILabel *currentTitle = (UILabel *)[self.bgScrollView viewWithTag:pageTag];
@@ -159,10 +159,15 @@
 			lable.textColor =self-> _normalColor;
 		}
 	}];
-	[UIView animateWithDuration:0.15 animations:^{
-		self->_lineView.bounds = rect;
-		self->_lineView.center = center;
-	}];
+	if (isAnimation) {
+		[UIView animateWithDuration:0.15 animations:^{
+			self->_lineView.bounds = rect;
+			self->_lineView.center = center;
+		}];
+	}else{
+		   _lineView.bounds = rect;
+		   _lineView.center = center;
+	}
 	//查看一下位置
 	CGRect aRect  = [self.bgScrollView convertRect:currentTitle.bounds fromView:currentTitle];
 	
@@ -177,11 +182,11 @@
 		
 		if (isOffSet) {
 			
-			[self.bgScrollView setContentOffset:CGPointMake(shouldChangeX, 0) animated:YES];
+			[self.bgScrollView setContentOffset:CGPointMake(shouldChangeX, 0) animated:isAnimation];
 			
 		}else{
 				CGFloat aChangeX =  self.bgScrollView.contentSize.width - CGRectGetWidth(self.bgScrollView.frame);
-				[self.bgScrollView setContentOffset:CGPointMake(aChangeX, 0) animated:YES];
+				[self.bgScrollView setContentOffset:CGPointMake(aChangeX, 0) animated:isAnimation];
 		}
 		
 	}else if (minX <= CGRectGetWidth(self.frame)){
@@ -195,9 +200,8 @@
 		}
 		if (isOffSet) {
 			//需要偏移的时候
-			[self.bgScrollView setContentOffset:CGPointMake(shouldChangeX, 0) animated:YES];
+			[self.bgScrollView setContentOffset:CGPointMake(shouldChangeX, 0) animated:isAnimation];
 		}
-		
 	}
 }
 

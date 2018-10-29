@@ -34,10 +34,15 @@
  */
 -(void)reloadData;
 
+//往后面追加
+-(void)addPageNumber;
+
 //滚动到某一页
 -(void)scrollTopage:(NSInteger)page;
 
 //从外侧调用加载到某个页面
 -(void)endScroll:(NSInteger)page;
+
+
 
 @end

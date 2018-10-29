@@ -35,7 +35,7 @@
 -(void)configeUI;
 
 //下面的分页滚动到第几页了
--(void)didScrollToPage:(NSInteger)page;
+-(void)didScrollToPage:(NSInteger)page andIsAnimation:(BOOL)isAnimation;
 
 
 
