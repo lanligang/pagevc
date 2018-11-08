@@ -181,11 +181,16 @@
 		BOOL isOffSet =  (self.bgScrollView.contentSize.width - shouldChangeX - CGRectGetWidth(self.bgScrollView.frame) ) >= 0?YES:NO;
 		
 		if (isOffSet) {
-			
+			if (shouldChangeX <= 0) {
+				shouldChangeX = 0;
+			}
 			[self.bgScrollView setContentOffset:CGPointMake(shouldChangeX, 0) animated:isAnimation];
 			
 		}else{
 				CGFloat aChangeX =  self.bgScrollView.contentSize.width - CGRectGetWidth(self.bgScrollView.frame);
+			if (aChangeX <= 0) {
+				aChangeX = 0;
+			}
 				[self.bgScrollView setContentOffset:CGPointMake(aChangeX, 0) animated:isAnimation];
 		}
 		

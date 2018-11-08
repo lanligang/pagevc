@@ -46,7 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.view.backgroundColor = [UIColor lightGrayColor];
+	self.view.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0];
 	[self.view addSubview:self.bgScrollView];
 	if (self.lgDelegate) {
 		_currentPage = 0;
@@ -251,7 +251,7 @@
 {
 	if (!_bgScrollView) {
 		_bgScrollView = [[UIScrollView alloc]init];
-		[_bgScrollView setBounces:NO];
+		[_bgScrollView setBounces:YES];
 		[_bgScrollView setPagingEnabled:YES];
 		[_bgScrollView setShowsVerticalScrollIndicator:NO];
 		[_bgScrollView setShowsHorizontalScrollIndicator:NO];

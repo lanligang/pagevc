@@ -23,16 +23,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+	[self.dataSource addObjectsFromArray:@[@"张三李",@"王五",@"齐鲁看看",@"五月风采",@"本地哼😕😕☹️",@"王五"]];
 	[self.navigationController.navigationBar setTranslucent:NO];
 
-	CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
+	//CGFloat topY =  CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
 
-	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 40.0f, CGRectGetWidth(self.view.frame) - 30, 40.0f)
+	LgPageView *pageView =[[LgPageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 30, 40.0f)
 											  andTitleFont:[UIFont systemFontOfSize:18.0f]
 										   andSeletedColor:[UIColor redColor]
 											andNormalColor:nil
@@ -46,9 +47,9 @@
 	pageVc.minClearCount = 5;
 	_pageVc = pageVc;
 	pageVc.view.frame = CGRectMake(0,
-								   topY,
+								   CGRectGetMaxY(pageView.frame),
 								   CGRectGetWidth(self.view.frame),
-								   CGRectGetHeight(self.view.frame) - CGRectGetHeight(pageView.frame) - topY);
+								   CGRectGetHeight(self.view.frame)- CGRectGetMaxY(pageView.frame));
 
 	UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	[changeBtn setTitle:@"加" forState:UIControlStateNormal];
