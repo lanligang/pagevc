@@ -14,6 +14,8 @@
 
 #define LEFT_RIGHT_SPACE 10.0f
 
+#define ITEM_SPACE 20.0f
+
 @interface LgPageView ()
 {
 	UIView *_lineView;
@@ -86,7 +88,7 @@
 	if (titles) {
 		NSInteger titleCount = titles.count;
 		CGFloat maxX = 0;
-		CGFloat space = 10;
+		CGFloat space = ITEM_SPACE;
 		CGFloat top = 0;
 		CGFloat lineHeight = _lineHeight;
 		CGFloat height = CGRectGetHeight(self.frame) - top - lineHeight;
@@ -112,6 +114,8 @@
 			if (i == 0) {
 				UIView *lineView =[UIView new];
 				_lineView = lineView;
+				_lineView.layer.cornerRadius = lineHeight/2.0f;
+				_lineView.layer.masksToBounds = YES;
 				titleLable.textColor = _seletedColor;
 				_lineView.backgroundColor = _lineColor;
 				[self.bgScrollView addSubview:lineView];
@@ -132,15 +136,7 @@
 		self.bgScrollView.contentSize = (CGSize){maxX,0};
 		[self.bgScrollView bringSubviewToFront:_lineView];
 	}
-	/**
-	 change =     {
-	 kind = 1;
-	 new = "NSPoint: {2483.3333333333335, 0}";
-	 old = "NSPoint: {2482.3333333333335, 0}";
-	 };
-	 obserVerkey = contentOffset;
 
-	 */
 	// 观察对象的回调
 	__weak typeof(self)ws = self;
 	[self.lgOberVer setDidChageMsg:^(id msg) {
@@ -151,6 +147,7 @@
 		CGFloat oldX = oldPoint.x;
 		[ws changeWithOldX:oldX andNewX:newX andScrollView:msg[@"obj"]];
 	}];
+
 }
 
 -(void)changeWithOldX:(CGFloat)oldX andNewX:(CGFloat)newX andScrollView:(UIScrollView *)scrollView
