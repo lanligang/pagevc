@@ -8,7 +8,7 @@
 
 #import "LgPageView.h"
 #import "LgPageControlViewController.h"
-
+#import "NSObject+LgObserver.h"
 
 #define MIN_ITEM_TAG 555
 
@@ -132,12 +132,70 @@
 		self.bgScrollView.contentSize = (CGSize){maxX,0};
 		[self.bgScrollView bringSubviewToFront:_lineView];
 	}
+	/**
+	 change =     {
+	 kind = 1;
+	 new = "NSPoint: {2483.3333333333335, 0}";
+	 old = "NSPoint: {2482.3333333333335, 0}";
+	 };
+	 obserVerkey = contentOffset;
+
+	 */
+	// 观察对象的回调
+	__weak typeof(self)ws = self;
+	[self.lgOberVer setDidChageMsg:^(id msg) {
+		NSDictionary *changeDic = msg[@"change"];
+		CGPoint newPoint = [changeDic[@"new"] CGPointValue];
+		CGPoint oldPoint = [changeDic[@"old"] CGPointValue];
+		CGFloat newX = newPoint.x;
+		CGFloat oldX = oldPoint.x;
+		[ws changeWithOldX:oldX andNewX:newX andScrollView:msg[@"obj"]];
+	}];
 }
+
+-(void)changeWithOldX:(CGFloat)oldX andNewX:(CGFloat)newX andScrollView:(UIScrollView *)scrollView
+{
+	if (newX != oldX) {
+		//从左向右滑动
+		CGFloat screenWith = [UIScreen mainScreen].bounds.size.width;
+		CGFloat page = newX/screenWith/1;
+		NSInteger tagIndex = page + MIN_ITEM_TAG;
+		UIView *leftV = nil;
+		UIView *rightV = nil;
+		for (UIView *itemV in self.Items) {
+			if (itemV.tag == tagIndex) {
+				leftV = itemV;
+			}else if (itemV.tag == (tagIndex + 1)){
+				rightV = itemV;
+			}
+		}
+		if (leftV&&rightV) {
+
+			CGFloat x1 = leftV.center.x;
+			CGFloat x2 = rightV.center.x;
+			CGFloat chagneX  = (x1 - x2)/screenWith*(newX - oldX);
+			if (scrollView.dragging) {
+				_lineView.bounds = CGRectMake(0, 0, 30.0f, CGRectGetHeight(_lineView.frame));
+				_lineView.center = CGPointMake(_lineView.center.x - chagneX, _lineView.center.y);
+			}
+		}
+	}else{
+		NSLog(@"相等");
+	}
+}
+
 -(void)ontapAction:(UITapGestureRecognizer *)tap
 {
 	NSInteger page = tap.view.tag - MIN_ITEM_TAG;
 	if (self.pageVc) {
 		[self.pageVc endScroll:page];
+	}
+	UIScrollView *scrollV = [self.lgOberVer valueForKey:@"observed"];
+	if (scrollV) {
+		if (scrollV.dragging||scrollV.tracking) {
+			NSLog(@"正在拖拽");
+			return;
+		}
 	}
 	[self didScrollToPage:page andIsAnimation:YES];
 	

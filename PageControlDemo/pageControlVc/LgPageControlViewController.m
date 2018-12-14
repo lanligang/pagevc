@@ -10,6 +10,8 @@
 
 #import "LgPageView.h"
 
+#import "NSObject+LgObserver.h"
+
 #define MINX_VIEW_TAG 3000
 
 @interface LgPageControlViewController ()<UIScrollViewDelegate>
@@ -40,6 +42,10 @@
 		[_pageTitleView configeUI];
 		[delegateVc addChildViewController:self];
 		[delegateVc.view addSubview:self.view];
+
+
+
+
 	}
 	return self;
 }
@@ -48,6 +54,10 @@
     [super viewDidLoad];
 	self.view.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0];
 	[self.view addSubview:self.bgScrollView];
+
+	//添加观察者
+	_pageTitleView.lgOberVer.changeObserved(_bgScrollView).addObserverKey(@"contentOffset");
+
 	if (self.lgDelegate) {
 		_currentPage = 0;
 		[self loadChildVcWithIndex:0];
