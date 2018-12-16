@@ -60,4 +60,4 @@ CGRectGetHeight(self.view.frame)- CGRectGetMaxY(pageView.frame));
 ```
 ### 内部使用了 NSObject+LgObserver 实现了 KVO
 
-![💪](https://upload-images.jianshu.io/upload_images/1600494-230055d6e1b62606.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000)
+![💪](http://img.zcool.cn/community/01f9ea56e282836ac72531cbe0233b.jpg@2o.jpg)
